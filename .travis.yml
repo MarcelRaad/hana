@@ -49,11 +49,11 @@ matrix:
     ##########################################################################
     # Clang trunk
     - os: linux
-      env: UNIT_TESTS=true COMPILER=clang++-3.8 LLVM_VERSION=trunk BOOST_VERSION=default
+      env: UNIT_TESTS=true COMPILER=clang++-3.9 LLVM_VERSION=trunk BOOST_VERSION=default
       addons:
         apt:
           packages:
-            - clang-3.8
+            - clang-3.9
           sources:
             - llvm-toolchain-precise
 
