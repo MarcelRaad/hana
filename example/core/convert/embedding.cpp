@@ -27,7 +27,7 @@ namespace boost { namespace hana {
 
 int main() {
     BOOST_HANA_RUNTIME_CHECK(
-        hana::to<std::vector<int>>(std::vector<float>{1.1, 2.2, 3.3})
+        hana::to<std::vector<int>>(std::vector<float>{1.1f, 2.2f, 3.3f})
                         ==
         std::vector<int>{1, 2, 3}
     );
