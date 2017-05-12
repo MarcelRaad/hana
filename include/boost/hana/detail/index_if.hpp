@@ -26,10 +26,14 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
 
     template <std::size_t i, std::size_t N>
     struct index_if_helper<i, N, false> {
+        template <typename Pred, typename X1>
+        using decltype_helper = decltype(
+            std::declval<Pred>()(std::declval<X1>()));
+
         template <typename Pred, typename X1, typename ...Xs>
         using f = typename index_if_helper<i + 1, N,
-            static_cast<bool>(detail::decay<decltype(
-                std::declval<Pred>()(std::declval<X1>()))>::type::value)
+            static_cast<bool>(detail::decay<decltype_helper<Pred, X1>>
+                ::type::value)
         >::template f<Pred, Xs...>;
     };
 

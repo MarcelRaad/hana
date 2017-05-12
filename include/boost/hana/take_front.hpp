@@ -56,8 +56,9 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
+            using decltype_helper = decltype(hana::length(xs));
             constexpr std::size_t n = N::value;
-            constexpr std::size_t size = decltype(hana::length(xs))::value;
+            constexpr std::size_t size = decltype_helper::value;
             return take_front_helper(static_cast<Xs&&>(xs),
                         std::make_index_sequence<(n < size ? n : size)>{});
         }

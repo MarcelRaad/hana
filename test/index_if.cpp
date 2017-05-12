@@ -16,8 +16,10 @@ int main() {
     // Tests hana::index_if on an infinite iterable
     constexpr Counter<> c{};
     auto pred = [](auto i) {
-        return [=](auto x) {
-            return hana::bool_c<decltype(x)::value == decltype(i)::value>;
+        return [i](auto x) {
+            using X = decltype(x);
+            using I = decltype(i);
+            return hana::bool_c<X::value == I::value>;
         };
     };
 

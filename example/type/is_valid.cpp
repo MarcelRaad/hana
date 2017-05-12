@@ -10,6 +10,8 @@
 #include <vector>
 namespace hana = boost::hana;
 
+template <typename T>
+using VT = typename T::type::value_type;
 
 int main() {
     // Checking for a member
@@ -20,10 +22,9 @@ int main() {
     static_assert(has_name(joe), "");
     static_assert(!has_name(1), "");
 
-
     // Checking for a nested type
     auto has_value_type = hana::is_valid([](auto t) -> hana::type<
-        typename decltype(t)::type::value_type
+        VT<decltype(t)>
     > { });
 
     static_assert(has_value_type(hana::type_c<std::vector<int>>), "");

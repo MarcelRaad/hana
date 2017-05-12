@@ -49,7 +49,8 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
         using type = __type_pack_element<n, T...>;
 #else
         using Indexer = td::indexer<std::make_index_sequence<sizeof...(T)>, T...>;
-        using type = typename decltype(td::get_elt<n>(Indexer{}))::type;
+        using Elt = decltype(td::get_elt<n>(Indexer{}));
+        using type = typename Elt::type;
 #endif
     };
 } BOOST_HANA_NAMESPACE_END

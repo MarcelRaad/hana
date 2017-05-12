@@ -53,9 +53,12 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     };
 
     struct make_flatten_indices {
+        template <typename Xs>
+        using Length = decltype(hana::length(std::declval<Xs>()));
+
         template <typename ...Xs>
-        auto operator()(Xs const& ...xs) const -> detail::flatten_indices<
-            decltype(hana::length(xs))::value...
+        auto operator()(Xs const& ...) const -> detail::flatten_indices<
+            Length<Xs>::value...
         >;
     };
 

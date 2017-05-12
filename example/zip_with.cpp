@@ -28,7 +28,7 @@ static_assert(
 
 // Example of computing a tuple of all the common types of several tuples:
 template<typename... Ts>
-using common_tuple_t = typename decltype(
+using common_tuple = decltype(
     hana::unpack(
         hana::zip_with(
             hana::metafunction<std::common_type>,
@@ -36,15 +36,15 @@ using common_tuple_t = typename decltype(
         ),
         hana::template_<std::tuple>
     )
-)::type;
+);
 
 
 static_assert(std::is_same<
-    common_tuple_t<
+    typename common_tuple<
         std::tuple<bool, int, unsigned>,
         std::tuple<char, long, long>,
         std::tuple<int, long long, double>
-    >,
+    >::type,
     std::tuple<int, long long, double>
 >::value, "");
 

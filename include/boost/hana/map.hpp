@@ -435,7 +435,9 @@ BOOST_HANA_NAMESPACE_BEGIN
             using MaybeIndex = typename detail::find_index<
                 HashTable, Key, detail::KeyAtIndex<Storage>::template apply
             >::type;
-            return hana::bool_<!decltype(hana::is_nothing(MaybeIndex{}))::value>{};
+            using decltype_helper = decltype(hana::is_nothing(MaybeIndex{}));
+            constexpr bool index_found = !decltype_helper::value;
+            return hana::bool_<index_found>{};
         }
     };
 
@@ -476,7 +478,9 @@ BOOST_HANA_NAMESPACE_BEGIN
             using MaybeIndex = typename detail::find_index<
                 HashTable, Key, detail::KeyAtIndex<Storage>::template apply
             >::type;
-            static_assert(!decltype(hana::is_nothing(MaybeIndex{}))::value,
+            using decltype_helper = decltype(hana::is_nothing(MaybeIndex{}));
+            constexpr bool index_found = !decltype_helper::value;
+            static_assert(index_found,
                 "hana::at_key(map, key) requires the 'key' to be present in the 'map'");
             constexpr std::size_t index = decltype(*MaybeIndex{}){}();
             return hana::second(hana::at_c<index>(static_cast<Map&&>(map).storage));

@@ -52,11 +52,16 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <std::size_t i, std::size_t N>
         struct iterate_while<i, N, false> {
             template <typename Xs, typename Pred>
-            using f = typename iterate_while<i + 1, N,
-                static_cast<bool>(detail::decay<decltype(
-                    std::declval<Pred>()(
-                      hana::at(std::declval<Xs>(), hana::size_c<i>)))>::type::value)
-            >::template f<Xs, Pred>;
+            using decltype_helper = decltype(std::declval<Pred>()(
+                hana::at(std::declval<Xs>(), hana::size_c<i>)));
+
+            template <typename Xs, typename Pred>
+            static constexpr bool done = static_cast<bool>(detail::decay<
+                decltype_helper<Xs, Pred>>::type::value);
+
+            template <typename Xs, typename Pred>
+            using f = typename iterate_while<i + 1, N, done<Xs, Pred>>
+                ::template f<Xs, Pred>;
         };
 
         template <std::size_t N>
@@ -74,10 +79,13 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <typename Tag>
     struct index_if_impl<Tag, when<Foldable<Tag>::value>> {
+        template <typename Xs>
+        using Length = decltype(hana::length(std::declval<Xs>()));
+
         template <typename Xs, typename Pred>
-        static constexpr auto apply(Xs const& xs, Pred const&)
+        static constexpr auto apply(Xs const&, Pred const&)
             -> typename detail::iterate_while<0,
-                decltype(hana::length(xs))::value, false>
+                Length<Xs>::value, false>
                     ::template f<Xs, Pred>
         { return {}; }
     };

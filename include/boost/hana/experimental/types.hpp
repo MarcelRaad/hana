@@ -73,11 +73,14 @@ BOOST_HANA_NAMESPACE_BEGIN
     // Functor
     template <>
     struct transform_impl<hana::experimental::types_tag> {
+        template <typename F, typename T>
+        using decltype_helper = decltype(+std::declval<F>(hana::type<T>{}));
+
         template <typename ...T, typename F, typename = typename std::enable_if<
             !hana::Metafunction<F>::value
         >::type>
         static constexpr auto apply(hana::experimental::types<T...> const&, F&& f)
-            -> hana::experimental::types<typename decltype(+f(hana::type<T>{}))::type...>
+            -> hana::experimental::types<typename decltype_helper<F&&, T>::type...>
         { return {}; }
 
         template <typename ...T, typename F, typename = typename std::enable_if<

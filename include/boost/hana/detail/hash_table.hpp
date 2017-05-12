@@ -47,8 +47,8 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
 
     template <typename Map, typename Key>
     struct find_indices {
-        using Hash = typename decltype(hana::hash(std::declval<Key>()))::type;
-        using type = decltype(detail::find_indices_impl<Hash>(std::declval<Map>()));
+        using Hash = decltype(hana::hash(std::declval<Key>()));
+        using type = decltype(detail::find_indices_impl<typename Hash::type>(std::declval<Map>()));
     };
     // end find_indices
 
@@ -113,15 +113,15 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <typename ...Buckets, typename Key, std::size_t Index>
     struct bucket_insert<hash_table<Buckets...>, Key, Index, true> {
         // There is a bucket for that Hash; append the new index to it.
-        using Hash = typename decltype(hana::hash(std::declval<Key>()))::type;
-        using type = hash_table<typename update_bucket<Buckets, Hash, Index>::type...>;
+        using Hash = decltype(hana::hash(std::declval<Key>()));
+        using type = hash_table<typename update_bucket<Buckets, typename Hash::type, Index>::type...>;
     };
 
     template <typename ...Buckets, typename Key, std::size_t Index>
     struct bucket_insert<hash_table<Buckets...>, Key, Index, false> {
         // There is no bucket for that Hash; insert a new bucket.
-        using Hash = typename decltype(hana::hash(std::declval<Key>()))::type;
-        using type = hash_table<Buckets..., bucket<Hash, Index>>;
+        using Hash = decltype(hana::hash(std::declval<Key>()));
+        using type = hash_table<Buckets..., bucket<typename Hash::type, Index>>;
     };
     // end bucket_insert
 
@@ -136,9 +136,13 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
 
     template <template <std::size_t> class KeyAtIndex, std::size_t N, std::size_t ...i>
     struct make_hash_table<KeyAtIndex, N, std::index_sequence<i...>> {
-        using type = hash_table<
-            bucket<typename decltype(hana::hash(std::declval<KeyAtIndex<i>>()))::type, i>...
-        >;
+        template <std::size_t s>
+        using Hash = decltype(hana::hash(std::declval<KeyAtIndex<s>>()));
+        template <std::size_t s>
+        using hash_t = typename Hash<s>::type;
+        template <std::size_t s>
+        using Bucket = bucket<hash_t<s>, s>;
+        using type = hash_table<Bucket<i>...>;
     };
 } BOOST_HANA_NAMESPACE_END
 

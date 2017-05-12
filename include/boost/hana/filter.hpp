@@ -63,7 +63,8 @@ BOOST_HANA_NAMESPACE_BEGIN
 
             template <typename X>
             constexpr auto operator()(X&& x) const {
-                constexpr bool cond = decltype(std::declval<Pred>()(x))::value;
+                using R = decltype(std::declval<Pred>()(x));
+                constexpr bool cond = R::value;
                 return helper(static_cast<X&&>(x), hana::bool_c<cond>);
             }
         };

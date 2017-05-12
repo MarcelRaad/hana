@@ -19,15 +19,18 @@ namespace hana = boost::hana;
 template <typename T>
 struct bucket { };
 
+template <typename T>
+using Hash = decltype(hana::hash(std::declval<T>()));
+
 template <typename ...T>
 struct set
-    : bucket<typename decltype(hana::hash(std::declval<T>()))::type>...
+    : bucket<typename Hash<T>::type>...
 { };
 
 template <typename Set, typename T>
 struct contains
     : std::is_base_of<
-        bucket<typename decltype(hana::hash(std::declval<T>()))::type>,
+        bucket<typename Hash<T>::type>,
         Set
     >
 { };
