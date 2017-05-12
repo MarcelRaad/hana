@@ -23,8 +23,8 @@ struct common_type { };
 
 template <typename T, typename U>
 struct common_type<T, U>
-    : std::conditional_t<std::is_same<std::decay_t<T>, T>{} &&
-                         std::is_same<std::decay_t<U>, U>{},
+    : std::conditional_t<std::is_same<std::decay_t<T>, T>::value &&
+                         std::is_same<std::decay_t<U>, U>::value,
         decltype(builtin_common_t(hana::type_c<T>, hana::type_c<U>)),
         common_type<std::decay_t<T>, std::decay_t<U>>
     >
