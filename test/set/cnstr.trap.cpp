@@ -18,8 +18,8 @@ namespace hana = boost::hana;
 template <int i>
 struct Trap {
     Trap() = default;
-    Trap(Trap const&) = default;
-    Trap(Trap&) = default;
+    Trap(Trap const&) {}
+    Trap(Trap&) {}
     Trap(Trap&&) = default;
 
     template <typename X>

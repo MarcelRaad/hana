@@ -93,8 +93,8 @@ namespace boost { namespace hana {
         // copy the container.
         struct trap_construct {
             trap_construct() = default;
-            trap_construct(trap_construct const&) = default;
-            trap_construct(trap_construct&) = default;
+            trap_construct(trap_construct const&) {}
+            trap_construct(trap_construct&) {}
             trap_construct(trap_construct&&) = default;
 
             template <typename X>
