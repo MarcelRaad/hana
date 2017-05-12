@@ -22,8 +22,12 @@ Distributed under the Boost Software License, Version 1.0.
 
 //! @ingroup group-details
 //! Expands to its first argument.
-#define BOOST_HANA_PP_FRONT(...) BOOST_HANA_PP_FRONT_IMPL(__VA_ARGS__, )
-#define BOOST_HANA_PP_FRONT_IMPL(e0, ...) e0
+#if defined(_MSC_VER) && !defined(__clang__)
+    #define BOOST_HANA_PP_FRONT(e0, ...) e0
+#else
+    #define BOOST_HANA_PP_FRONT(...) BOOST_HANA_PP_FRONT_IMPL(__VA_ARGS__, )
+    #define BOOST_HANA_PP_FRONT_IMPL(e0, ...) e0
+#endif
 
 //! @ingroup group-details
 //! Expands to all of its arguments, except for the first one.

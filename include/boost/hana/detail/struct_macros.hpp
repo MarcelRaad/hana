@@ -271,8 +271,13 @@ struct BOOST_HANA_ADAPT_STRUCT_must_be_called_in_the_global_namespace;
   static_assert(true, "force the usage of a trailing semicolon")            \
 /**/
 
-#define BOOST_HANA_ADAPT_STRUCT_IMPL(N, ...) \
-  BOOST_HANA_PP_CONCAT(BOOST_HANA_ADAPT_STRUCT_IMPL_, N)(__VA_ARGS__)
+#if defined(_MSC_VER) && !defined(__clang__)
+  #define BOOST_HANA_ADAPT_STRUCT_IMPL(N, ...) \
+    BOOST_HANA_PP_CONCAT(BOOST_HANA_ADAPT_STRUCT_IMPL_, N) BOOST_HANA_PP_CALL_ARGS(__VA_ARGS__)
+#else
+  #define BOOST_HANA_ADAPT_STRUCT_IMPL(N, ...) \
+    BOOST_HANA_PP_CONCAT(BOOST_HANA_ADAPT_STRUCT_IMPL_, N)(__VA_ARGS__)
+#endif
 
 
 #define BOOST_HANA_ADAPT_STRUCT_IMPL_1(TYPE )    \
@@ -1109,8 +1114,13 @@ struct BOOST_HANA_ADAPT_ADT_must_be_called_in_the_global_namespace;
   static_assert(true, "force the usage of a trailing semicolon")            \
 /**/
 
-#define BOOST_HANA_ADAPT_ADT_IMPL(N, ...) \
-  BOOST_HANA_PP_CONCAT(BOOST_HANA_ADAPT_ADT_IMPL_, N)(__VA_ARGS__)
+#if defined(_MSC_VER) && !defined(__clang__)
+  #define BOOST_HANA_ADAPT_ADT_IMPL(N, ...) \
+    BOOST_HANA_PP_CONCAT(BOOST_HANA_ADAPT_ADT_IMPL_, N) BOOST_HANA_PP_CALL_ARGS(__VA_ARGS__)
+#else
+  #define BOOST_HANA_ADAPT_ADT_IMPL(N, ...) \
+    BOOST_HANA_PP_CONCAT(BOOST_HANA_ADAPT_ADT_IMPL_, N)(__VA_ARGS__)
+#endif
 
 
 #define BOOST_HANA_ADAPT_ADT_IMPL_1(TYPE )             \
@@ -1981,8 +1991,13 @@ struct BOOST_HANA_ADAPT_ADT_must_be_called_in_the_global_namespace;
 #define BOOST_HANA_DEFINE_STRUCT(...) \
     BOOST_HANA_DEFINE_STRUCT_IMPL(BOOST_HANA_PP_NARG(__VA_ARGS__), __VA_ARGS__)
 
-#define BOOST_HANA_DEFINE_STRUCT_IMPL(N, ...) \
+#if defined(_MSC_VER) && !defined(__clang__)
+  #define BOOST_HANA_DEFINE_STRUCT_IMPL(N, ...) \
+    BOOST_HANA_PP_CONCAT(BOOST_HANA_DEFINE_STRUCT_IMPL_, N) BOOST_HANA_PP_CALL_ARGS(__VA_ARGS__)
+#else
+  #define BOOST_HANA_DEFINE_STRUCT_IMPL(N, ...) \
     BOOST_HANA_PP_CONCAT(BOOST_HANA_DEFINE_STRUCT_IMPL_, N)(__VA_ARGS__)
+#endif
 
 
 #define BOOST_HANA_DEFINE_STRUCT_IMPL_1(TYPE )       \
