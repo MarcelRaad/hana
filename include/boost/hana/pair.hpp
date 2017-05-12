@@ -37,9 +37,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename First, typename Second>
-    struct pair : detail::operators::adl<pair<First, Second>>
-                , private detail::ebo<detail::pix<0>, First>
-                , private detail::ebo<detail::pix<1>, Second>
+    struct BOOST_HANA_FORCE_EBO pair
+        : detail::operators::adl<pair<First, Second>>
+        , private detail::ebo<detail::pix<0>, First>
+        , private detail::ebo<detail::pix<1>, Second>
     {
         // Default constructor
         template <typename ...dummy, typename = typename std::enable_if<

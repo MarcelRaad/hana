@@ -150,6 +150,12 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
 #endif
 
+#if defined(_MSC_VER)
+#   define BOOST_HANA_FORCE_EBO __declspec(empty_bases)
+#else
+#   define BOOST_HANA_FORCE_EBO /* nothing */
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 // Namespace macros
 //////////////////////////////////////////////////////////////////////////////

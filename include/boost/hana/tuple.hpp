@@ -84,7 +84,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename ...Xn>
-    struct tuple final
+    struct BOOST_HANA_FORCE_EBO tuple final
         : detail::operators::adl<tuple<Xn...>>
         , detail::iterable_operators<tuple<Xn...>>
     {

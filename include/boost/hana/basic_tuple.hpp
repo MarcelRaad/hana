@@ -42,10 +42,10 @@ BOOST_HANA_NAMESPACE_BEGIN
         struct from_other { };
 
         template <typename Indices, typename ...Xn>
-        struct basic_tuple_impl;
+        struct BOOST_HANA_FORCE_EBO basic_tuple_impl;
 
         template <std::size_t ...n, typename ...Xn>
-        struct basic_tuple_impl<std::index_sequence<n...>, Xn...>
+        struct BOOST_HANA_FORCE_EBO basic_tuple_impl<std::index_sequence<n...>, Xn...>
             : detail::ebo<bti<n>, Xn>...
         {
             static constexpr std::size_t size_ = sizeof...(Xn);

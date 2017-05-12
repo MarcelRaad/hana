@@ -231,7 +231,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 #else
     template <typename T, T v>
-    struct integral_constant
+    struct BOOST_HANA_FORCE_EBO integral_constant
         : std::integral_constant<T, v>
         , detail::operators::adl<integral_constant<T, v>>
     {
