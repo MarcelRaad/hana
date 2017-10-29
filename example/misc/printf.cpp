@@ -51,7 +51,7 @@ constexpr auto format(Tokens ...tokens_) {
 
 int main() {
     int a = 1;
-    float b = 1.3;
+    float b = 1.3f;
     char const* c = "abcdef";
 
     auto args = format(
